@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Clientes - Sistema de Reservaciones</title>
+    <link rel="stylesheet" href="../css/clientes.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Sistema de Reservaciones</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Gestión de Clientes</a></li>
+                        <li><a href="../recursos/index.html">Gestión de Recursos</a></li>
+                        <li><a href="../reservas/index.html">Gestión de Reservas</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h2>Gestión de Clientes</h2>
+                <p>Administra la información de tus clientes y su historial de reservas</p>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <section class="form-section">
+                <h3>Registrar Nuevo Cliente</h3>
+                <form id="clientForm" method="POST">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nombre">Nombre *</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido *</label>
+                            <input type="text" id="apellido" name="apellido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono *</label>
+                            <input type="tel" id="telefono" name="telefono" required>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary" id="btn-submit">✨ Registrar cliente</button>
+                        <button type="button" class="btn btn-secondary" id="btn-clear">🔄 Limpiar Formulario</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Tabla de Clientes -->
+            <section class="table-section">
+                <h3>Clientes Registrados</h3>
+                <div class="table-container">
+                    <table id="clientsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                            <div id="emptyState" class="empty-state" style="display: none;">
+                                <h4>No hay clientes registrados</h4>
+                                <p>Utiliza el formulario de arriba para registrar tu primer cliente</p>
+                            </div>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal de Edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close">&times;</span>
+            <h3>Editar Cliente</h3>
+            <form id="editForm" method="PUT">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="editNombre">Nombre</label>
+                    <input type="text" id="editNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="editApellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Correo Electrónico</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTelefono">Teléfono</label>
+                    <input type="tel" id="editTelefono" required>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary" id="btn-edit">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" id="btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/clientes.js"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

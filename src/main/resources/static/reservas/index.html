@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas - Sistema de Reservaciones</title>
+    <link rel="stylesheet" href="../css/reservas.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Sistema de Reservaciones</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="../clientes/index.html">Gestión de Clientes</a></li>
+                        <li><a href="../recursos/index.html">Gestión de Recursos</a></li>
+                        <li><a href="#" class="active">Gestión de Reservas</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h2>Gestión de Reservas</h2>
+                <p>Administra todas las reservaciones de recursos en tu sistema</p>
+            </div>
+
+            <!-- Estadísticas -->
+            <section class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number" id="total"></div>
+                    <div class="stat-label">📅 Total Reservas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activas"></div>
+                    <div class="stat-label">✅ Activas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="canceladas"></div>
+                    <div class="stat-label">❌ Canceladas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="hoy"></div>
+                    <div class="stat-label">📋 Hoy</div>
+                </div>
+            </section>
+
+            <div class="content-grid">
+                <!-- Formulario de Nueva Reserva -->
+                <section class="form-section">
+                    <h3>📝 Nueva Reserva</h3>
+                    <form method="POST" id="formReserva">
+                        <div class="form-group">
+                            <label for="cliente">👤 Cliente *</label>
+                            <select id="cliente" name="cliente" required>
+                                <option value="">Selecciona un cliente</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recurso">🏢 Recurso *</label>
+                            <select id="recurso" name="recurso" required>
+                                <option value="">Selecciona un recurso</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha">📅 Fecha de Reserva *</label>
+                            <input type="date" id="fecha" name="fecha" required>
+                        </div>
+
+                        <div class="time-grid">
+                            <div class="form-group">
+                                <label for="hora-inicio">🕐 Hora Inicio *</label>
+                                <input type="time" id="hora-inicio" name="hora_inicio" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hora-fin">🕕 Hora Fin *</label>
+                                <input type="time" id="hora-fin" name="hora_fin" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">✨ Crear Reserva</button>
+                        <button type="reset" class="btn btn-secondary">🔄 Limpiar</button>
+                    </form>
+                </section>
+
+                <div>
+                    <!-- Filtros -->
+                    <section class="filter-section">
+                        <h4>🔍 Filtrar Reservas</h4>
+                        <form method="GET" id="form-filtrer" action="">
+                            <div class="filter-grid">
+                                <div class="form-group">
+                                    <label for="filtro-cliente">Filtrar por Cliente</label>
+                                    <select id="filtro-cliente" name="filtro_cliente">
+                                        <option value="">Todos los clientes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="filtro-recurso">Filtrar por Recurso</label>
+                                    <select id="filtro-recurso" name="filtro_recurso">
+                                        <option value="">Todos los recursos</option>
+                                    </select>
+                                </div>
+                                <button id="btn-filter" type="button" class="btn btn-filter">🔍 Filtrar</button>
+                                <button type="reset" class="btn btn-secondary">🗑 Limpiar</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Tabla de Reservas -->
+            <section class="table-section">
+                <h3>📋 Reservas Existentes</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Recurso</th>
+                                <th>Fecha</th>
+                                <th>Horario</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tBody">
+                            <div id="emptyState" class="empty-state" style="display: none;">
+                                <h4>No hay reservas registrados</h4>
+                                <p>Utiliza el formulario para registrar tu primera reserva</p>
+                            </div>
+                        </tbody>
+                    </table>
+                    <!-- Paginacion de la tabla-->
+                    <div id="paginacion"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal de Edición de Reserva -->
+    <div id="editReservationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" id="close">&times;</span>
+                <h3>✏ Editar Reserva</h3>
+                <p class="modal-subtitle">Modifica los detalles de la reserva seleccionada</p>
+            </div>
+            <div class="modal-body">
+                <div class="reservation-info">
+                    <h4>📋 Reserva Actual</h4>
+                    <p id="currentReservationInfo">Información de la reserva que se va a editar</p>
+                </div>
+
+                <form id="editReservationForm" method="PUT" action="">
+                    <input type="hidden" id="editReservationId" name="reservation_id">
+
+                    <div class="modal-form-group">
+                        <label for="editCliente">👤 Cliente *</label>
+                        <select id="editCliente" name="cliente" required>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="editRecurso">🏢 Recurso *</label>
+                        <select id="editRecurso" name="recurso" required>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="editFecha">📅 Fecha de Reserva *</label>
+                        <input type="date" id="editFecha" name="fecha" required>
+                    </div>
+
+                    <div class="modal-time-grid">
+                        <div class="modal-form-group">
+                            <label for="editHoraInicio">🕐 Hora Inicio *</label>
+                            <input type="time" id="editHoraInicio" name="hora_inicio" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label for="editHoraFin">🕕 Hora Fin *</label>
+                            <input type="time" id="editHoraFin" name="hora_fin" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" form="editReservationForm" class="btn btn-primary">💾 Actualizar Reserva</button>
+                <button type="button" id="btn-secondary" class="btn btn-secondary"
+                    onclick="closeEditReservationModal()">❌
+                    Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/reservas.js"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

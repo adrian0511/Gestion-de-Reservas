@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Recursos - Sistema de Reservaciones</title>
+    <link rel="stylesheet" href="../css/recursos.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Sistema de Reservaciones</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="../clientes/index.html">Gestión de Clientes</a></li>
+                        <li><a href="#" class="active">Gestión de Recursos</a></li>
+                        <li><a href="../reservas/index.html">Gestión de Reservas</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h2>Gestión de Recursos</h2>
+                <p>Administra los recursos disponibles para reservas en tu sistema</p>
+            </div>
+
+            <!-- Formulario de Creación de Recursos -->
+            <section class="form-section loading">
+                <h3>🏢 Crear Nuevo Recurso</h3>
+                <form method="POST" id="formCreate" action="#create-resource">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tipo">Tipo de Recurso *</label>
+                            <select id="tipo" name="tipo" required>
+                                <option value="">Selecciona un tipo</option>
+                                <option value="SALON">🏛 Salón de Eventos</option>
+                                <option value="OFICINA">🏢 Oficina</option>
+                                <option value="AUDITORIO">🎭 Auditorio</option>
+                                <option value="LABORATORIO">🔬 Laboratorio</option>
+                                <option value="VEHICULO">🚗 Vehículo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="capacidad">Capacidad *</label>
+                            <input type="number" id="capacidad" name="capacidad" min="1" max="1000" required
+                                placeholder="Número de personas">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción *</label>
+                        <textarea id="descripcion" name="descripcion" required
+                            placeholder="Describe las características del recurso, equipamiento disponible, ubicación, etc."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">✨ Crear Recurso</button>
+                        <button type="reset" class="btn btn-secondary">🔄 Limpiar Formulario</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Tabla de Recursos -->
+            <section class="table-section loading">
+                <h3>📋 Recursos Disponibles</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Capacidad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tBody">
+                            <div id="emptyState" class="empty-state" style="display: none;">
+                                <h4>No hay recursos registrados</h4>
+                                <p>Utiliza el formulario de arriba para registrar tu primer recurso</p>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal de Edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" id="close">&times;</span>
+                <h3>✏ Editar Recurso</h3>
+                <p class="modal-subtitle">Modifica la información del recurso seleccionado</p>
+            </div>
+            <div class="modal-body">
+                <div class="resource-info">
+                    <h4>📋 Recurso Actual</h4>
+                    <p id="currentResourceInfo">Información del recurso que se va a editar</p>
+                </div>
+
+                <form id="editResourceForm" method="put" action="#update-resource">
+                    <input type="hidden" id="editResourceId" name="resource_id">
+
+                    <div class="modal-form-group">
+                        <label for="editTipo">🏷 Tipo de Recurso *</label>
+                        <select id="editTipo" name="tipo" required>
+                            <option value="">Selecciona un tipo</option>
+                            <option value="SALON">🏛 Salón de Eventos</option>
+                            <option value="OFICINA">🏢 Oficina</option>
+                            <option value="AUDITORIO">🎭 Auditorio</option>
+                            <option value="LABORATORIO">🔬 Laboratorio</option>
+                            <option value="VEHICULO">🚗 Vehículo</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="editCapacidad">👥 Capacidad *</label>
+                        <input type="number" id="editCapacidad" name="capacidad" min="1" max="1000" required
+                            placeholder="Número de personas">
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="editDescripcion">📝 Descripción *</label>
+                        <textarea id="editDescripcion" name="descripcion" required
+                            placeholder="Describe las características del recurso, equipamiento disponible, ubicación, etc."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" form="editResourceForm" class="btn btn-primary">💾 Actualizar Recurso</button>
+                <button type="button" class="btn btn-secondary" id="btn-secondary">❌ Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/recursos.js"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
+</body>
+
+</html>
